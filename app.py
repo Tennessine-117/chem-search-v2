@@ -15,9 +15,7 @@ MAX_RESULTS = 10
 
 
 def normalize_text(text):
-    text = (text or "").lower()
-    text = "".join(ch for ch in text if not ch.isspace())
-    return text
+    return "".join(ch for ch in (text or "").lower() if not ch.isspace())
 
 
 def char_ngrams(text, n=2):
@@ -32,10 +30,8 @@ def hash_ngram(ngram):
 
 
 def vectorize_text(text):
-    normalized = normalize_text(text)
-    grams = char_ngrams(normalized, 2)
     vec = {}
-    for gram in grams:
+    for gram in char_ngrams(normalize_text(text), 2):
         idx = hash_ngram(gram)
         vec[idx] = vec.get(idx, 0.0) + 1.0
 
@@ -75,35 +71,34 @@ def load_problems():
     return items
 
 
-PROBLEMS = load_problems()
-PROBLEM_BY_ID = {item["id"]: item for item in PROBLEMS}
-SEARCH_INDEX = []
-
-for item in PROBLEMS:
-    search_text = " ".join(
+def build_search_text(problem):
+    return " ".join(
         [
-            item.get("title", ""),
-            item.get("statement", ""),
-            " ".join(item.get("tags", [])),
-            " ".join(item.get("concepts", [])),
-            item.get("source", ""),
+            problem.get("title", ""),
+            problem.get("statement", ""),
+            " ".join(problem.get("tags", [])),
+            " ".join(problem.get("concepts", [])),
+            problem.get("source", ""),
         ]
     )
-    SEARCH_INDEX.append((item["id"], vectorize_text(search_text)))
+
+
+def build_search_index(problems):
+    return [(item["id"], vectorize_text(build_search_text(item))) for item in problems]
+
+
+PROBLEMS = load_problems()
+PROBLEM_BY_ID = {item["id"]: item for item in PROBLEMS}
+SEARCH_INDEX = build_search_index(PROBLEMS)
 
 
 def match_filters(problem, source_filter, tags_filter, concepts_filter):
     if source_filter and problem.get("source", "") != source_filter:
         return False
-
-    problem_tags = set(problem.get("tags", []))
-    if tags_filter and not set(tags_filter).issubset(problem_tags):
+    if tags_filter and not set(tags_filter).issubset(set(problem.get("tags", []))):
         return False
-
-    problem_concepts = set(problem.get("concepts", []))
-    if concepts_filter and not set(concepts_filter).issubset(problem_concepts):
+    if concepts_filter and not set(concepts_filter).issubset(set(problem.get("concepts", []))):
         return False
-
     return True
 
 
@@ -117,7 +112,6 @@ def search_problems(query, source_filter="", tags_filter=None, concepts_filter=N
     scored = []
     for problem_id, vec in SEARCH_INDEX:
         problem = PROBLEM_BY_ID[problem_id]
-
         if not match_filters(problem, source_filter, tags_filter, concepts_filter):
             continue
 
@@ -204,7 +198,6 @@ class AppHandler(BaseHTTPRequestHandler):
             source_filter = params.get("source", [""])[0].strip()
             tags_filter = parse_csv_values(params.get("tags", [""])[0])
             concepts_filter = parse_csv_values(params.get("concepts", [""])[0])
-            results = search_problems(query, source_filter, tags_filter, concepts_filter)
             self.send_json(
                 {
                     "query": query,
@@ -213,14 +206,13 @@ class AppHandler(BaseHTTPRequestHandler):
                         "tags": tags_filter,
                         "concepts": concepts_filter,
                     },
-                    "results": results,
+                    "results": search_problems(query, source_filter, tags_filter, concepts_filter),
                 }
             )
             return
 
         if path.startswith("/problems/"):
-            problem_id = path.removeprefix("/problems/")
-            self.handle_problem_page(problem_id)
+            self.handle_problem_page(path.removeprefix("/problems/"))
             return
 
         if path.startswith("/api/problems/"):
@@ -280,16 +272,11 @@ function renderResults(query, filters, items) {
 }
 
 async function runSearch() {
-  const q = queryInput.value.trim();
-  const source = sourceInput.value.trim();
-  const tags = tagsInput.value.trim();
-  const concepts = conceptsInput.value.trim();
-
   const params = new URLSearchParams();
-  params.set('q', q);
-  if (source) params.set('source', source);
-  if (tags) params.set('tags', tags);
-  if (concepts) params.set('concepts', concepts);
+  params.set('q', queryInput.value.trim());
+  if (sourceInput.value.trim()) params.set('source', sourceInput.value.trim());
+  if (tagsInput.value.trim()) params.set('tags', tagsInput.value.trim());
+  if (conceptsInput.value.trim()) params.set('concepts', conceptsInput.value.trim());
 
   const res = await fetch(`/api/search?${params.toString()}`);
   const data = await res.json();
@@ -297,18 +284,11 @@ async function runSearch() {
 }
 
 document.getElementById('searchBtn').addEventListener('click', runSearch);
-queryInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') runSearch();
-});
-sourceInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') runSearch();
-});
-tagsInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') runSearch();
-});
-conceptsInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') runSearch();
-});
+for (const input of [queryInput, sourceInput, tagsInput, conceptsInput]) {
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') runSearch();
+  });
+}
 </script>
 """
         self.send_html(page_template("化学問題検索", body))
@@ -320,11 +300,7 @@ conceptsInput.addEventListener('keydown', (e) => {
             return
 
         choices = problem.get("choices") or []
-        choices_html = "".join(f"<li>{html.escape(choice)}</li>" for choice in choices)
-        if not choices_html:
-            choices_html = "<li>選択肢なし</li>"
-
-        safe_problem_id = quote(problem_id, safe="")
+        choices_html = "".join(f"<li>{html.escape(choice)}</li>" for choice in choices) or "<li>選択肢なし</li>"
 
         body = f"""
 <a href=\"/\">← 検索へ戻る</a>
@@ -336,9 +312,7 @@ conceptsInput.addEventListener('keydown', (e) => {
 <h2>問題文</h2>
 <pre>{html.escape(problem.get('statement', ''))}</pre>
 <h2>選択肢</h2>
-<ol>
-{choices_html}
-</ol>
+<ol>{choices_html}</ol>
 <button id=\"toggleAnswer\">答えを表示</button>
 <div id=\"answerWrap\" style=\"display:none; margin-top: 0.8rem;\">
   <h2>答え</h2>
@@ -353,7 +327,7 @@ let shown = false;
 
 btn.addEventListener('click', async () => {{
   if (!loaded) {{
-    const res = await fetch('/api/problems/{safe_problem_id}');
+    const res = await fetch('/api/problems/{quote(problem_id, safe="")}');
     const data = await res.json();
     ans.textContent = data.answer || '答えデータなし';
     loaded = true;
