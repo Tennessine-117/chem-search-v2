@@ -1,0 +1,432 @@
+[
+  {
+    "id": "gas_ideal_01",
+    "title": "一定温度での圧力変化と体積",
+    "statement": "密閉したシリンダー内に理想気体が入っている。温度を一定に保ちながら体積を2.0 Lから1.0 Lにしたとき、圧力はどう変化するか。初期圧力は1.0×10^5 Paとする。",
+    "choices": ["A. 0.5×10^5 Pa", "B. 1.0×10^5 Pa", "C. 2.0×10^5 Pa", "D. 4.0×10^5 Pa"],
+    "answer": "C. ボイルの法則よりP1V1=P2V2なのでP2=2.0×10^5 Pa。",
+    "tags": ["気体", "理想気体", "計算"],
+    "concepts": ["状態方程式", "ボイルの法則"],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_state_eq_02",
+    "title": "気体の状態方程式で物質量を求める",
+    "statement": "0.082 L・atm/(mol・K)を気体定数として用いる。27℃、1.0 atmで体積4.92 Lを占める理想気体の物質量を求めよ。",
+    "choices": ["A. 0.10 mol", "B. 0.20 mol", "C. 0.50 mol", "D. 2.0 mol"],
+    "answer": "B. PV=nRTよりn=1.0×4.92/(0.082×300)=0.20 mol。",
+    "tags": ["気体", "理想気体", "モル計算"],
+    "concepts": ["状態方程式", "絶対温度"],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_mixture_03",
+    "title": "分圧の計算",
+    "statement": "容器中に窒素0.30 molと酸素0.20 molが混合されている。全圧が1.0×10^5 Paのとき、酸素の分圧はいくらか。",
+    "choices": ["A. 2.0×10^4 Pa", "B. 4.0×10^4 Pa", "C. 6.0×10^4 Pa", "D. 8.0×10^4 Pa"],
+    "answer": "B. 酸素のモル分率は0.20/(0.30+0.20)=0.40。分圧は0.40×1.0×10^5=4.0×10^4 Pa。",
+    "tags": ["気体", "混合気体"],
+    "concepts": ["ダルトンの分圧の法則"],
+    "source": "dummy"
+  },
+  {
+    "id": "solution_conc_01",
+    "title": "モル濃度の基本計算",
+    "statement": "NaCl 5.85 gを水に溶かして500 mLの水溶液を作った。NaClのモル濃度を求めよ。原子量はNa=23, Cl=35.5とする。",
+    "choices": ["A. 0.10 mol/L", "B. 0.20 mol/L", "C. 0.50 mol/L", "D. 1.0 mol/L"],
+    "answer": "B. NaClの式量58.5より0.10 mol。体積0.500 Lなので0.20 mol/L。",
+    "tags": ["溶液", "モル濃度"],
+    "concepts": ["物質量", "濃度計算"],
+    "source": "dummy"
+  },
+  {
+    "id": "solution_dilution_02",
+    "title": "希釈後の濃度",
+    "statement": "1.0 mol/Lの塩酸を50 mL取り、水を加えて200 mLにした。希釈後の濃度を求めよ。",
+    "choices": ["A. 0.10 mol/L", "B. 0.20 mol/L", "C. 0.25 mol/L", "D. 0.50 mol/L"],
+    "answer": "C. 希釈前後で溶質量一定なのでC1V1=C2V2。C2=1.0×50/200=0.25 mol/L。",
+    "tags": ["溶液", "希釈"],
+    "concepts": ["モル濃度", "保存則"],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_base_titration_01",
+    "title": "中和滴定の体積比",
+    "statement": "0.10 mol/LのNaOH水溶液20.0 mLを中和するのに必要な0.20 mol/LのHClの体積を求めよ。",
+    "choices": ["A. 5.0 mL", "B. 10.0 mL", "C. 20.0 mL", "D. 40.0 mL"],
+    "answer": "B. 反応比1:1。NaOHの物質量は0.10×0.0200=0.00200 mol。必要HCl体積は0.00200/0.20=0.0100 L。",
+    "tags": ["酸塩基", "中和滴定", "計算"],
+    "concepts": ["当量関係", "モル計算"],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_base_pH_01",
+    "title": "強酸のpH",
+    "statement": "0.010 mol/Lの塩酸水溶液のpHを求めよ。",
+    "choices": ["A. 1", "B. 2", "C. 3", "D. 12"],
+    "answer": "B. 強酸なので[H+] = 1.0×10^-2 mol/L。pH=-log10[H+]=2。",
+    "tags": ["酸塩基", "pH"],
+    "concepts": ["水素イオン濃度", "対数"],
+    "source": "dummy"
+  },
+  {
+    "id": "acid_base_neutralization_02",
+    "title": "中和後のイオン",
+    "statement": "塩酸と水酸化ナトリウム水溶液を当量点まで混合した。溶液中に主として存在する陽イオンは何か。",
+    "choices": ["A. H+", "B. Na+", "C. OH-", "D. Cl-"],
+    "answer": "B. 当量点ではH+とOH-は水になり、Na+とCl-が残る。陽イオンはNa+。",
+    "tags": ["酸塩基", "イオン"],
+    "concepts": ["中和反応", "観察"],
+    "source": "dummy"
+  },
+  {
+    "id": "redox_oxidation_number_01",
+    "title": "酸化数の判定",
+    "statement": "過マンガン酸イオンMnO4^-中のMnの酸化数を求めよ。",
+    "choices": ["A. +3", "B. +5", "C. +7", "D. +8"],
+    "answer": "C. Oは-2が4個で-8、全体で-1よりMnは+7。",
+    "tags": ["酸化還元", "酸化数"],
+    "concepts": ["酸化数規則"],
+    "source": "dummy"
+  },
+  {
+    "id": "redox_electron_02",
+    "title": "電子移動数",
+    "statement": "Fe2+がFe3+になる反応で、鉄イオン1個あたり何個の電子が失われるか。",
+    "choices": ["A. 1個", "B. 2個", "C. 3個", "D. 0個"],
+    "answer": "A. 価数が+2から+3へ1増加なので電子1個を失う。",
+    "tags": ["酸化還元", "基礎"],
+    "concepts": ["半反応式", "電子授受"],
+    "source": "dummy"
+  },
+  {
+    "id": "electrochem_cell_01",
+    "title": "ダニエル電池の正極",
+    "statement": "Zn|Zn2+ || Cu2+|Cu で表されるダニエル電池で、正極で起こる反応を選べ。",
+    "choices": ["A. Zn→Zn2+ + 2e-", "B. Cu2+ + 2e-→Cu", "C. 2H+ + 2e-→H2", "D. Cu→Cu2+ + 2e-"],
+    "answer": "B. 正極（還元極）ではCu2+が電子を受け取りCuになる。",
+    "tags": ["電池", "酸化還元"],
+    "concepts": ["ダニエル電池", "電極反応"],
+    "source": "dummy"
+  },
+  {
+    "id": "electrolysis_01",
+    "title": "食塩水の電気分解",
+    "statement": "塩化ナトリウム水溶液の電気分解で陽極から主に発生する気体は何か。",
+    "choices": ["A. 水素", "B. 酸素", "C. 塩素", "D. 窒素"],
+    "answer": "C. 陽極ではCl-が酸化され塩素が発生しやすい。",
+    "tags": ["電気分解", "無機"],
+    "concepts": ["電極反応", "ハロゲン"],
+    "source": "dummy"
+  },
+  {
+    "id": "thermochem_hess_01",
+    "title": "ヘスの法則",
+    "statement": "C(黒鉛)+O2→CO2 の反応熱を求めたい。C+1/2O2→CO が-111 kJ/mol、CO+1/2O2→CO2 が-283 kJ/molのとき、求める反応熱はいくらか。",
+    "choices": ["A. -172 kJ/mol", "B. -283 kJ/mol", "C. -394 kJ/mol", "D. -505 kJ/mol"],
+    "answer": "C. 2式を加えてC+O2→CO2。反応熱は-111 + (-283) = -394 kJ/mol。",
+    "tags": ["熱化学", "計算"],
+    "concepts": ["ヘスの法則", "反応熱"],
+    "source": "dummy"
+  },
+  {
+    "id": "thermochem_bond_02",
+    "title": "結合エネルギーと発熱",
+    "statement": "一般に、反応で切る結合に必要なエネルギーより、生成時に放出される結合エネルギーが大きい場合、反応はどうなるか。",
+    "choices": ["A. 発熱反応", "B. 吸熱反応", "C. 平衡に達しない", "D. 反応しない"],
+    "answer": "A. 放出エネルギーが上回るため全体として発熱。",
+    "tags": ["熱化学", "概念"],
+    "concepts": ["結合エネルギー", "エンタルピー"],
+    "source": "dummy"
+  },
+  {
+    "id": "equilibrium_kc_01",
+    "title": "平衡定数の式",
+    "statement": "反応 N2 + 3H2 ⇄ 2NH3 の平衡定数Kcの式として正しいものを選べ。",
+    "choices": ["A. [N2][H2]^3/[NH3]^2", "B. [NH3]^2/([N2][H2]^3)", "C. [NH3]/([N2][H2])", "D. [N2][H2]/[NH3]"],
+    "answer": "B. 生成物濃度の係数乗を分子、反応物を分母に置く。",
+    "tags": ["化学平衡", "平衡定数"],
+    "concepts": ["質量作用の法則"],
+    "source": "dummy"
+  },
+  {
+    "id": "equilibrium_lechatelier_02",
+    "title": "ルシャトリエの原理",
+    "statement": "発熱反応 A ⇄ B が平衡にある。温度を上げると平衡はどちらへ移動するか。",
+    "choices": ["A. 生成物側", "B. 反応物側", "C. 変化しない", "D. 圧力次第"],
+    "answer": "B. 温度上昇は吸熱方向を有利にするため反応物側へ移動。",
+    "tags": ["化学平衡", "概念"],
+    "concepts": ["ルシャトリエの原理"],
+    "source": "dummy"
+  },
+  {
+    "id": "kinetics_rate_01",
+    "title": "反応速度と濃度",
+    "statement": "ある反応の速度式がv=k[A]^2で与えられる。Aの濃度を2倍にすると初速度は何倍になるか。",
+    "choices": ["A. 2倍", "B. 3倍", "C. 4倍", "D. 8倍"],
+    "answer": "C. 濃度2倍を二乗するので4倍。",
+    "tags": ["反応速度", "計算"],
+    "concepts": ["速度式", "反応次数"],
+    "source": "dummy"
+  },
+  {
+    "id": "kinetics_catalyst_02",
+    "title": "触媒の役割",
+    "statement": "触媒を加えたときに一般に正しい説明を選べ。",
+    "choices": ["A. 反応熱が大きく変わる", "B. 活性化エネルギーを下げる", "C. 平衡定数を変える", "D. 反応後に消費される"],
+    "answer": "B. 触媒は別経路を与えて活性化エネルギーを低下させる。",
+    "tags": ["反応速度", "触媒"],
+    "concepts": ["活性化エネルギー"],
+    "source": "dummy"
+  },
+  {
+    "id": "inorganic_periodic_01",
+    "title": "周期表とイオン化エネルギー",
+    "statement": "同一周期で左から右へ進むと、一般に第一イオン化エネルギーはどう変化するか。",
+    "choices": ["A. 小さくなる", "B. 大きくなる", "C. ほぼ一定", "D. 0になる"],
+    "answer": "B. 有効核電荷の増加により一般に大きくなる。",
+    "tags": ["無機", "周期表"],
+    "concepts": ["原子構造", "イオン化エネルギー"],
+    "source": "dummy"
+  },
+  {
+    "id": "inorganic_group1_02",
+    "title": "アルカリ金属の性質",
+    "statement": "ナトリウムとカリウムに共通する性質として適切なものを選べ。",
+    "choices": ["A. 水と反応しにくい", "B. 炎色反応を示す", "C. 常温で気体", "D. 酸化物は酸性"],
+    "answer": "B. アルカリ金属は炎色反応を示し、水とも反応しやすい。",
+    "tags": ["無機", "族の性質"],
+    "concepts": ["アルカリ金属", "炎色反応"],
+    "source": "dummy"
+  },
+  {
+    "id": "inorganic_halogens_03",
+    "title": "ハロゲンの酸化力",
+    "statement": "F2, Cl2, Br2, I2のうち、一般に最も酸化力が強いものを選べ。",
+    "choices": ["A. F2", "B. Cl2", "C. Br2", "D. I2"],
+    "answer": "A. ハロゲンではF2が最も酸化力が強い。",
+    "tags": ["無機", "ハロゲン"],
+    "concepts": ["酸化還元", "周期性"],
+    "source": "dummy"
+  },
+  {
+    "id": "inorganic_ammonia_04",
+    "title": "アンモニアの生成",
+    "statement": "実験室でアンモニアを発生させるとき、塩化アンモニウムと混合して加熱する塩基性物質は何か。",
+    "choices": ["A. 炭酸カルシウム", "B. 水酸化カルシウム", "C. 塩化ナトリウム", "D. 二酸化マンガン"],
+    "answer": "B. NH4ClとCa(OH)2を加熱してNH3を発生させる。",
+    "tags": ["無機", "気体発生"],
+    "concepts": ["アンモニア", "実験操作"],
+    "source": "dummy"
+  },
+  {
+    "id": "organic_hydrocarbon_01",
+    "title": "アルカンの一般式",
+    "statement": "鎖式飽和炭化水素（アルカン）の一般式として正しいものを選べ。",
+    "choices": ["A. CnH2n", "B. CnH2n-2", "C. CnH2n+2", "D. CnHn"],
+    "answer": "C. アルカンの一般式はCnH2n+2。",
+    "tags": ["有機", "炭化水素"],
+    "concepts": ["同族体", "構造"],
+    "source": "dummy"
+  },
+  {
+    "id": "organic_alkene_02",
+    "title": "臭素水との反応",
+    "statement": "エテンに臭素水を加えると、臭素水の色はどうなるか。",
+    "choices": ["A. 変化しない", "B. 脱色される", "C. 青色になる", "D. 白濁する"],
+    "answer": "B. 二重結合への付加反応により臭素が消費され脱色。",
+    "tags": ["有機", "不飽和結合"],
+    "concepts": ["付加反応", "検出反応"],
+    "source": "dummy"
+  },
+  {
+    "id": "organic_alcohol_03",
+    "title": "エタノールの酸化",
+    "statement": "エタノールを穏やかに酸化したとき、主に得られる化合物は何か。",
+    "choices": ["A. エタン", "B. アセトアルデヒド", "C. 酢酸", "D. エチレン"],
+    "answer": "B. 第一級アルコールの穏やかな酸化でアルデヒドが得られる。",
+    "tags": ["有機", "酸化"],
+    "concepts": ["官能基", "アルコール"],
+    "source": "dummy"
+  },
+  {
+    "id": "organic_ester_04",
+    "title": "エステル化",
+    "statement": "酢酸とエタノールを濃硫酸存在下で加熱したとき生成する主生成物は何か。",
+    "choices": ["A. 酢酸エチル", "B. エチレン", "C. アセトン", "D. グルコース"],
+    "answer": "A. カルボン酸とアルコールの脱水縮合で酢酸エチルが生成。",
+    "tags": ["有機", "エステル"],
+    "concepts": ["エステル化", "脱水縮合"],
+    "source": "dummy"
+  },
+  {
+    "id": "organic_polymer_05",
+    "title": "付加重合と縮合重合",
+    "statement": "ナイロン66の合成は主にどの種類の重合反応に分類されるか。",
+    "choices": ["A. 付加重合", "B. 縮合重合", "C. 開環重合", "D. 共重合不可"],
+    "answer": "B. ジアミンとジカルボン酸の縮合で高分子を作る。",
+    "tags": ["高分子", "有機"],
+    "concepts": ["縮合重合", "ナイロン"],
+    "source": "dummy"
+  },
+  {
+    "id": "structure_vsepr_01",
+    "title": "分子の形（VSEPR）",
+    "statement": "メタンCH4の分子形として最も適切なものを選べ。",
+    "choices": ["A. 直線形", "B. 正四面体形", "C. 平面三角形", "D. 折れ線形"],
+    "answer": "B. 共有電子対4組で正四面体形。",
+    "tags": ["理論化学", "分子構造"],
+    "concepts": ["VSEPR", "共有結合"],
+    "source": "dummy"
+  },
+  {
+    "id": "structure_polarity_02",
+    "title": "分子の極性",
+    "statement": "次のうち分子全体として極性を持つものはどれか。",
+    "choices": ["A. CO2", "B. CH4", "C. H2O", "D. CCl4"],
+    "answer": "C. H2Oは折れ線形で双極子が打ち消し合わず極性分子。",
+    "tags": ["理論化学", "分子構造"],
+    "concepts": ["極性", "双極子"],
+    "source": "dummy"
+  },
+  {
+    "id": "stoichiometry_01",
+    "title": "化学反応式から生成量",
+    "statement": "2H2 + O2 → 2H2O。H2を0.50 mol完全燃焼させたとき生成するH2Oは何molか。",
+    "choices": ["A. 0.25 mol", "B. 0.50 mol", "C. 1.0 mol", "D. 2.0 mol"],
+    "answer": "B. 係数比がH2:H2O=1:1なので0.50 mol生成。",
+    "tags": ["化学量論", "計算"],
+    "concepts": ["反応式係数", "モル比"],
+    "source": "dummy"
+  },
+  {
+    "id": "stoichiometry_limiting_02",
+    "title": "不足試薬",
+    "statement": "N2 + 3H2 → 2NH3。N2が1.0 mol、H2が2.0 molあるとき不足試薬はどちらか。",
+    "choices": ["A. N2", "B. H2", "C. どちらでもない", "D. 判定不能"],
+    "answer": "B. N2 1.0 molにはH2 3.0 mol必要だが2.0 molしかない。",
+    "tags": ["化学量論", "反応量"],
+    "concepts": ["不足試薬", "モル比"],
+    "source": "dummy"
+  },
+  {
+    "id": "phase_change_01",
+    "title": "蒸気圧と沸点",
+    "statement": "液体が沸騰する条件として正しいものを選べ。",
+    "choices": ["A. 蒸気圧が外圧より小さい", "B. 蒸気圧が外圧に等しい", "C. 蒸気圧が0になる", "D. 温度が0℃になる"],
+    "answer": "B. 蒸気圧と外圧が等しくなると沸騰が起こる。",
+    "tags": ["状態変化", "熱"],
+    "concepts": ["蒸気圧", "沸点"],
+    "source": "dummy"
+  },
+  {
+    "id": "colligative_01",
+    "title": "凝固点降下",
+    "statement": "非電解質を溶かした希薄溶液では、純溶媒に比べて凝固点はどうなるか。",
+    "choices": ["A. 上がる", "B. 下がる", "C. 変わらない", "D. 圧力次第で逆転"],
+    "answer": "B. 溶質粒子の存在により凝固点降下が起こる。",
+    "tags": ["溶液", "束一的性質"],
+    "concepts": ["凝固点降下"],
+    "source": "dummy"
+  },
+  {
+    "id": "buffer_01",
+    "title": "緩衝液の組み合わせ",
+    "statement": "酢酸と酢酸ナトリウムを混合した水溶液が示す性質として適切なものを選べ。",
+    "choices": ["A. pHが急激に変化しやすい", "B. 少量の酸・塩基でpH変化が小さい", "C. 必ずpH7になる", "D. 電気を通さない"],
+    "answer": "B. 弱酸とその塩の組み合わせは緩衝作用を示す。",
+    "tags": ["酸塩基", "緩衝液"],
+    "concepts": ["共役酸塩基", "pH制御"],
+    "source": "dummy"
+  },
+  {
+    "id": "solubility_01",
+    "title": "溶解度積のイメージ",
+    "statement": "難溶性塩AgClの飽和水溶液にNaClを加えると、AgClの溶解度は一般にどうなるか。",
+    "choices": ["A. 増える", "B. 変わらない", "C. 減る", "D. 0になる"],
+    "answer": "C. 共通イオンCl-の効果で溶解平衡が左に移り、溶解度は減少。",
+    "tags": ["平衡", "溶解"],
+    "concepts": ["共通イオン効果", "溶解度積"],
+    "source": "dummy"
+  },
+  {
+    "id": "analysis_flame_01",
+    "title": "炎色反応の色",
+    "statement": "ナトリウムイオンの炎色反応で観察される色として正しいものを選べ。",
+    "choices": ["A. 赤紫", "B. 黄", "C. 緑", "D. 青"],
+    "answer": "B. Naは強い黄色を示す。",
+    "tags": ["分析", "無機"],
+    "concepts": ["炎色反応", "元素分析"],
+    "source": "dummy"
+  },
+  {
+    "id": "analysis_precipitation_02",
+    "title": "沈殿反応",
+    "statement": "硝酸銀水溶液を塩化物イオンを含む溶液に加えると生じる沈殿の色は何色か。",
+    "choices": ["A. 青色", "B. 黄色", "C. 白色", "D. 黒色"],
+    "answer": "C. AgClは白色沈殿。",
+    "tags": ["分析", "沈殿"],
+    "concepts": ["イオン反応", "定性分析"],
+    "source": "dummy"
+  },
+  {
+    "id": "polymer_protein_01",
+    "title": "タンパク質の構成単位",
+    "statement": "タンパク質を加水分解して得られる基本単位は何か。",
+    "choices": ["A. 脂肪酸", "B. 単糖", "C. アミノ酸", "D. ヌクレオチド"],
+    "answer": "C. タンパク質はアミノ酸がペプチド結合で連なった高分子。",
+    "tags": ["高分子", "生体物質"],
+    "concepts": ["タンパク質", "加水分解"],
+    "source": "dummy"
+  },
+  {
+    "id": "polymer_carbohydrate_02",
+    "title": "デンプンの加水分解",
+    "statement": "デンプンを酵素や酸で加水分解した最終生成物は主に何か。",
+    "choices": ["A. グルコース", "B. グリセリン", "C. アミノ酸", "D. エタノール"],
+    "answer": "A. デンプンはグルコースの重合体であり最終的にグルコースになる。",
+    "tags": ["高分子", "生体物質"],
+    "concepts": ["多糖", "加水分解"],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_real_04",
+    "title": "理想気体からのずれ",
+    "statement": "高圧・低温条件で実在気体が理想気体の式からずれやすくなる主な理由として適切なものを選べ。",
+    "choices": ["A. 分子間力と分子体積の影響", "B. 電荷保存則の破れ", "C. 気体定数Rの消失", "D. 温度が負になるため"],
+    "answer": "A. 実在気体では分子間相互作用と有限体積が無視できなくなる。",
+    "tags": ["気体", "理論"],
+    "concepts": ["実在気体", "状態方程式"],
+    "source": "dummy"
+  },
+  {
+    "id": "gas_density_05",
+    "title": "気体の密度計算",
+    "statement": "標準状態でCO2 1.12 Lの質量を求めよ。モル体積22.4 L/mol、CO2のモル質量44 g/molとする。",
+    "choices": ["A. 1.1 g", "B. 2.2 g", "C. 4.4 g", "D. 8.8 g"],
+    "answer": "B. 物質量は1.12/22.4=0.050 mol。質量は0.050×44=2.2 g。",
+    "tags": ["気体", "計算"],
+    "concepts": ["モル体積", "質量計算"],
+    "source": "dummy"
+  },
+  {
+    "id": "entrance_style_mixed_01",
+    "title": "実験条件の読み取り（総合）",
+    "statement": "ある気体Aをフラスコに入れ、温度を一定に保ったまま体積を半分にしたところ圧力がほぼ2倍になった。次の記述として最も適切なものを選べ。",
+    "choices": ["A. 気体Aは理想気体の近似が成り立つ", "B. 気体Aは液体に変化した", "C. 反応熱が求められる", "D. 滴定曲線が必要である"],
+    "answer": "A. 温度一定でPとVが反比例しており、ボイルの法則に一致。",
+    "tags": ["気体", "読解", "共通テスト風"],
+    "concepts": ["ボイルの法則", "実験考察"],
+    "source": "dummy"
+  },
+  {
+    "id": "entrance_style_mixed_02",
+    "title": "データ表から平衡移動を判断",
+    "statement": "反応X⇄Yについて、温度上昇後にYの割合が減少した。反応X→Yの熱化学的性質として適切なのはどれか。",
+    "choices": ["A. 吸熱反応", "B. 発熱反応", "C. 熱に無関係", "D. 不可逆反応"],
+    "answer": "B. 温度上昇で生成物側が不利になったので正反応は発熱。",
+    "tags": ["平衡", "熱化学", "共通テスト風"],
+    "concepts": ["ルシャトリエ", "発熱・吸熱"],
+    "source": "dummy"
+  }
+]
