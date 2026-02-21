@@ -8,6 +8,7 @@ from urllib.parse import parse_qs, quote, urlparse
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(ROOT_DIR, "data", "problems.json")
+PDF_ROOT = os.path.join(ROOT_DIR, "data", "problems_pdf")
 HOST = "127.0.0.1"
 PORT = 8000
 VECTOR_DIM = 4096
@@ -184,6 +185,20 @@ class AppHandler(BaseHTTPRequestHandler):
     def not_found(self, message="Not Found"):
         self.send_json({"error": message}, status=404)
 
+    def send_file(self, file_path, content_type="application/octet-stream"):
+        try:
+            with open(file_path, "rb") as f:
+                content = f.read()
+        except FileNotFoundError:
+            self.not_found("File not found")
+            return
+
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(content)))
+        self.end_headers()
+        self.wfile.write(content)
+
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
@@ -222,6 +237,16 @@ class AppHandler(BaseHTTPRequestHandler):
                 self.not_found("Problem not found")
                 return
             self.send_json(problem)
+            return
+
+        if path.startswith("/pdf/"):
+            rel = path.removeprefix("/pdf/")
+            safe_rel = os.path.normpath(rel).lstrip("/\\")
+            file_path = os.path.join(PDF_ROOT, safe_rel)
+            if not os.path.abspath(file_path).startswith(os.path.abspath(PDF_ROOT) + os.sep):
+                self.not_found("Invalid path")
+                return
+            self.send_file(file_path, content_type="application/pdf")
             return
 
         self.not_found()
@@ -302,6 +327,19 @@ for (const input of [queryInput, sourceInput, tagsInput, conceptsInput]) {
         choices = problem.get("choices") or []
         choices_html = "".join(f"<li>{html.escape(choice)}</li>" for choice in choices) or "<li>選択肢なし</li>"
 
+        pdf_section = ""
+        pdf_info = problem.get("pdf") or {}
+        pdf_file = pdf_info.get("file")
+        if pdf_file:
+            rel = os.path.relpath(os.path.join(ROOT_DIR, "data", "problems_pdf", pdf_file), PDF_ROOT)
+            rel = rel.replace("\\", "/")
+            pdf_url = f"/pdf/{rel}"
+            pdf_section = f"""
+<h2>問題PDF</h2>
+<p><a href="{pdf_url}" target="_blank" rel="noopener">PDFを別タブで開く</a></p>
+<iframe src="{pdf_url}" width="100%" height="720" style="border: 1px solid #ddd; border-radius: 6px;"></iframe>
+"""
+
         body = f"""
 <a href="/">← 検索へ戻る</a>
 <h1>{html.escape(problem['title'])}</h1>
@@ -311,6 +349,7 @@ for (const input of [queryInput, sourceInput, tagsInput, conceptsInput]) {
 <p><strong>concepts:</strong> {html.escape(', '.join(problem.get('concepts', [])))}</p>
 <h2>問題文</h2>
 <pre>{html.escape(problem.get('statement', ''))}</pre>
+{pdf_section}
 <h2>選択肢</h2>
 <ol>{choices_html}</ol>
 <button id="toggleAnswer">答えを表示</button>
