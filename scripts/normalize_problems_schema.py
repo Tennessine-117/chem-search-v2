@@ -58,7 +58,8 @@ def main() -> None:
     problems = json.loads(PROBLEMS_PATH.read_text(encoding="utf-8"))
 
     for item in problems:
-        item["narrow_tag"] = item.get("narrow_tag") or ""
+        item.pop("tags", None)
+        item.pop("narrow_tag", None)
         item["solution_outline"] = item.get("solution_outline") or ""
         item["solution_memo"] = item.get("solution_memo") or ""
         item["classification_basis"] = item.get("classification_basis") or ""
@@ -103,4 +104,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

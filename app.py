@@ -117,14 +117,13 @@ def load_problems():
 
     seen_ids = set()
     for item in items:
-        required = ["id", "title", "statement", "tags", "source"]
+        required = ["id", "title", "statement", "source"]
         missing = [k for k in required if k not in item]
         if missing:
             raise ValueError(f"Missing keys {missing} in problem {item}")
         if item["id"] in seen_ids:
             raise ValueError(f"Duplicate id: {item['id']}")
         seen_ids.add(item["id"])
-        item["narrow_tag"] = item.get("narrow_tag") or ""
         item["solution_outline"] = item.get("solution_outline") or ""
         item["solution_memo"] = item.get("solution_memo") or ""
         item["chapter_id"] = item.get("chapter_id") or ""
@@ -149,13 +148,10 @@ def build_search_text(problem):
     solution_weighted = " ".join([solution] * 5).strip()
     memo = problem.get("solution_memo", "")
     memo_weighted = " ".join([memo] * 7).strip()
-    tags_weighted = " ".join(problem.get("tags", []) * 2)
     return " ".join(
         [
             problem.get("title", ""),
             problem.get("statement", ""),
-            tags_weighted,
-            problem.get("narrow_tag", ""),
             solution_weighted,
             memo_weighted,
             problem.get("source", ""),
@@ -201,7 +197,6 @@ def normalize_section_ids(problem):
 def match_filters(
     problem,
     source_filter,
-    tags_filter,
     chapter_filter="",
     section_filter="",
     type_filters=None,
@@ -209,8 +204,6 @@ def match_filters(
 ):
     type_filters = type_filters or []
     if source_filter and problem.get("source", "") != source_filter:
-        return False
-    if tags_filter and not set(tags_filter).issubset(set(problem.get("tags", []))):
         return False
     chapter_ids = set(normalize_chapter_ids(problem))
     section_ids = set(normalize_section_ids(problem))
@@ -232,13 +225,11 @@ def match_filters(
 def search_problems(
     query,
     source_filter="",
-    tags_filter=None,
     chapter_filter="",
     section_filter="",
     type_filters=None,
     type_mode="any",
 ):
-    tags_filter = tags_filter or []
     type_filters = type_filters or []
 
     query_vec = vectorize_text(query)
@@ -250,7 +241,6 @@ def search_problems(
         if not match_filters(
             problem,
             source_filter,
-            tags_filter,
             chapter_filter=chapter_filter,
             section_filter=section_filter,
             type_filters=type_filters,
@@ -274,8 +264,6 @@ def search_problems(
             {
                 "id": problem["id"],
                 "title": problem["title"],
-                "tags": problem.get("tags", []),
-                "narrow_tag": problem.get("narrow_tag", ""),
                 "source": problem.get("source", ""),
                 "chapter_id": chapter_id,
                 "chapter_ids": chapter_ids,
@@ -324,7 +312,6 @@ def page_template(title, body_html):
     .row-2 {{ display: grid; grid-template-columns: 1fr 2fr; gap: 0.8rem; margin-top: 0.6rem; }}
     button {{ padding: 0.6rem 1rem; cursor: pointer; margin-top: 0.7rem; }}
     .result {{ border: 1px solid #ddd; border-radius: 8px; padding: 0.8rem 1rem; margin: 0.7rem 0; }}
-    .tags {{ color: #445; font-size: 0.9rem; }}
     .muted {{ color: #666; font-size: 0.9rem; }}
     .filter-box {{ border: 1px solid #ddd; border-radius: 8px; padding: 0.6rem; max-height: 180px; overflow: auto; }}
     .filter-item {{ display: flex; gap: 0.5rem; align-items: center; padding: 0.1rem 0; }}
@@ -385,7 +372,6 @@ class AppHandler(BaseHTTPRequestHandler):
 
         if path == "/api/filters":
             sources = {}
-            tags = {}
             chapters = {}
             sections = {}
             types = {}
@@ -393,8 +379,6 @@ class AppHandler(BaseHTTPRequestHandler):
                 source = item.get("source", "")
                 if source:
                     sources[source] = sources.get(source, 0) + 1
-                for tag in item.get("tags", []) or []:
-                    tags[tag] = tags.get(tag, 0) + 1
                 chapter_ids = normalize_chapter_ids(item)
                 for chapter_id in chapter_ids:
                     chapters[chapter_id] = chapters.get(chapter_id, 0) + 1
@@ -422,10 +406,6 @@ class AppHandler(BaseHTTPRequestHandler):
                     "sources": [
                         {"value": key, "count": sources[key]}
                         for key in sorted(sources.keys())
-                    ],
-                    "tags": [
-                        {"value": key, "count": tags[key]}
-                        for key in sorted(tags.keys())
                     ],
                     "chapters": [
                         {
@@ -462,7 +442,6 @@ class AppHandler(BaseHTTPRequestHandler):
             params = parse_qs(parsed.query)
             query = params.get("q", [""])[0]
             source_filter = params.get("source", [""])[0].strip()
-            tags_filter = parse_csv_values(params.get("tags", [""])[0])
             chapter_filter = params.get("chapter", [""])[0].strip()
             section_filter = params.get("section", [""])[0].strip()
             type_filters = parse_csv_values(params.get("types", [""])[0])
@@ -474,7 +453,6 @@ class AppHandler(BaseHTTPRequestHandler):
                     "query": query,
                     "filters": {
                         "source": source_filter,
-                        "tags": tags_filter,
                         "chapter": chapter_filter,
                         "section": section_filter,
                         "types": type_filters,
@@ -483,7 +461,6 @@ class AppHandler(BaseHTTPRequestHandler):
                     "results": search_problems(
                         query,
                         source_filter,
-                        tags_filter,
                         chapter_filter=chapter_filter,
                         section_filter=section_filter,
                         type_filters=type_filters,
@@ -587,21 +564,14 @@ class AppHandler(BaseHTTPRequestHandler):
     def handle_search_page(self):
         body = """
 <h1>化学問題 意味検索（V2 ミニマム）</h1>
-<p class="muted">自然言語検索 + source/tags + chapter/section/type で絞り込みできます（選択式）。</p>
+<p class="muted">自然言語検索 + source + chapter/section/type で絞り込みできます（選択式）。</p>
 <input id="query" type="text" placeholder="例: 気体の状態方程式が必要になる問題を探して" />
-<div class="row-2">
+<div>
   <div>
     <label for="source">source</label>
     <select id="source">
       <option value="">すべて</option>
     </select>
-  </div>
-  <div>
-    <div style="display:flex; align-items:center; justify-content:space-between;">
-      <label>tags</label>
-      <button id="clearTags" type="button">全解除</button>
-    </div>
-    <div id="tagsBox" class="filter-box"></div>
   </div>
 </div>
 <div class="row">
@@ -646,7 +616,6 @@ class AppHandler(BaseHTTPRequestHandler):
 <script>
 const queryInput = document.getElementById('query');
 const sourceInput = document.getElementById('source');
-const tagsBox = document.getElementById('tagsBox');
 const chapterInput = document.getElementById('chapter');
 const sectionInput = document.getElementById('section');
 const typeModeInput = document.getElementById('typeMode');
@@ -656,17 +625,8 @@ const infoEl = document.getElementById('resultInfo');
 const oldSourceInput = document.getElementById('oldSource');
 const newSourceInput = document.getElementById('newSource');
 const renameInfo = document.getElementById('renameInfo');
-const clearTagsBtn = document.getElementById('clearTags');
 const clearTypesBtn = document.getElementById('clearTypes');
-let filterData = {sources: [], tags: [], chapters: [], sections: [], types: []};
-
-function getSelectedTags() {
-  const tags = [];
-  for (const cb of tagsBox.querySelectorAll('input[type="checkbox"]')) {
-    if (cb.checked) tags.push(cb.value);
-  }
-  return tags;
-}
+let filterData = {sources: [], chapters: [], sections: [], types: []};
 
 function getSelectedTypes() {
   const types = [];
@@ -710,20 +670,6 @@ function renderFilters(filters) {
     sourceInput.appendChild(opt);
   }
 
-  tagsBox.innerHTML = '';
-  for (const item of filters.tags || []) {
-    const label = document.createElement('label');
-    label.className = 'filter-item';
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.value = item.value;
-    const text = document.createElement('span');
-    text.textContent = `${item.value} (${item.count})`;
-    label.appendChild(cb);
-    label.appendChild(text);
-    tagsBox.appendChild(label);
-  }
-
   for (const item of filters.chapters || []) {
     const opt = document.createElement('option');
     opt.value = item.id;
@@ -752,7 +698,7 @@ function renderFilters(filters) {
 }
 
 function renderResults(query, filters, items) {
-  const f = `source=${filters.source || '-'} / tags=${(filters.tags || []).join('|') || '-'} / chapter=${filters.chapter || '-'} / section=${filters.section || '-'} / types(${filters.type_mode || 'any'})=${(filters.types || []).join('|') || '-'}`;
+  const f = `source=${filters.source || '-'} / chapter=${filters.chapter || '-'} / section=${filters.section || '-'} / types(${filters.type_mode || 'any'})=${(filters.types || []).join('|') || '-'}`;
   infoEl.textContent = `クエリ: ${query || '(空)'} / ${items.length}件 / ${f}`;
   resultsEl.innerHTML = '';
   if (!items.length) {
@@ -762,14 +708,12 @@ function renderResults(query, filters, items) {
   for (const item of items) {
     const div = document.createElement('div');
     div.className = 'result';
-    const tags = (item.tags || []).join(', ');
-    const narrow = item.narrow_tag ? ` / narrow: ${item.narrow_tag}` : '';
     const chapter = item.chapter_name || item.chapter_id || '-';
     const section = item.section_name || item.section_id || '-';
     const types = (item.type_ids || []).join(', ') || '-';
     div.innerHTML = `
       <a href="/problems/${encodeURIComponent(item.id)}"><strong>${item.title}</strong></a><br>
-      <span class="tags">source: ${item.source || '-'} / tags: ${tags}${narrow}</span><br>
+      <span class="muted">source: ${item.source || '-'}</span><br>
       <span class="muted">chapter: ${chapter} / section: ${section} / types: ${types}</span><br>
       <span class="muted">score: ${Number(item.score).toFixed(6)}</span>
     `;
@@ -784,8 +728,6 @@ async function runSearch() {
   if (chapterInput.value) params.set('chapter', chapterInput.value);
   if (sectionInput.value) params.set('section', sectionInput.value);
   if (typeModeInput.value) params.set('type_mode', typeModeInput.value);
-  const tags = getSelectedTags();
-  if (tags.length) params.set('tags', tags.join(','));
   const types = getSelectedTypes();
   if (types.length) params.set('types', types.join(','));
 
@@ -822,11 +764,6 @@ async function renameSource() {
 
 document.getElementById('searchBtn').addEventListener('click', runSearch);
 document.getElementById('renameSourceBtn').addEventListener('click', renameSource);
-clearTagsBtn.addEventListener('click', () => {
-  for (const cb of tagsBox.querySelectorAll('input[type="checkbox"]')) {
-    cb.checked = false;
-  }
-});
 clearTypesBtn.addEventListener('click', () => {
   for (const cb of typesBox.querySelectorAll('input[type="checkbox"]')) {
     cb.checked = false;
@@ -879,8 +816,6 @@ loadFilters();
   <button id="sourceEditBtn">保存</button>
 </div>
 <div id="sourceEditInfo" class="muted"></div>
-<p><strong>tags:</strong> {html.escape(', '.join(problem.get('tags', [])))}</p>
-<p><strong>narrow tag:</strong> {html.escape(problem.get('narrow_tag', ''))}</p>
 {pdf_section}
 <h2>選択肢</h2>
 <ol>{choices_html}</ol>
