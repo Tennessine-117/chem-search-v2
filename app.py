@@ -88,13 +88,14 @@ def parse_csv_values(raw_value):
 
 def load_taxonomy():
     if not os.path.exists(TAXONOMY_PATH):
-        return {"chapters": []}, {}, {}, {}
+        return {"chapters": []}, {}, {}, {}, {}
     with open(TAXONOMY_PATH, "r", encoding="utf-8") as f:
         taxonomy = json.load(f)
 
     chapter_names = {}
     section_names = {}
     type_meta = {}
+    type_detail = {}
     for ch in taxonomy.get("chapters", []):
         chapter_id = ch.get("id", "")
         chapter_names[chapter_id] = ch.get("name", "")
@@ -108,7 +109,8 @@ def load_taxonomy():
                     "chapter_id": chapter_id,
                     "section_id": section_id,
                 }
-    return taxonomy, chapter_names, section_names, type_meta
+                type_detail[type_id] = typ
+    return taxonomy, chapter_names, section_names, type_meta, type_detail
 
 
 def load_problems():
@@ -148,22 +150,53 @@ def build_search_text(problem):
     solution_weighted = " ".join([solution] * 5).strip()
     memo = problem.get("solution_memo", "")
     memo_weighted = " ".join([memo] * 7).strip()
+    type_text = build_type_text(problem)
+    type_weighted = " ".join([type_text] * 4).strip()
     return " ".join(
         [
             problem.get("title", ""),
             problem.get("statement", ""),
             solution_weighted,
             memo_weighted,
+            type_weighted,
             problem.get("source", ""),
         ]
     )
+
+
+def build_type_text(problem):
+    type_ids = ensure_list_of_str(problem.get("type_ids"))
+    primary = (problem.get("primary_type_id") or "").strip()
+    if primary and primary not in type_ids:
+        type_ids.append(primary)
+    type_ids = uniq_keep_order(type_ids)
+
+    texts = []
+    for type_id in type_ids:
+        detail = TYPE_DETAIL_BY_ID.get(type_id) or {}
+        if not detail:
+            continue
+        texts.append(detail.get("name", ""))
+        texts.extend(detail.get("aliases", []) or [])
+        texts.append(detail.get("summary", ""))
+
+        classification = detail.get("classification") or {}
+        texts.extend(classification.get("keywords", []) or [])
+        texts.extend(classification.get("typical_expressions", []) or [])
+
+        concepts = detail.get("concepts") or {}
+        texts.extend(concepts.get("core_concepts", []) or [])
+
+        solving = detail.get("solving") or {}
+        texts.extend(solving.get("strategy", []) or [])
+    return " ".join(x for x in texts if isinstance(x, str) and x.strip())
 
 
 def build_search_index(problems):
     return [(item["id"], vectorize_text(build_search_text(item))) for item in problems]
 
 
-TAXONOMY, CHAPTER_NAME_BY_ID, SECTION_NAME_BY_KEY, TYPE_META_BY_ID = load_taxonomy()
+TAXONOMY, CHAPTER_NAME_BY_ID, SECTION_NAME_BY_KEY, TYPE_META_BY_ID, TYPE_DETAIL_BY_ID = load_taxonomy()
 DATA_LOCK = threading.Lock()
 PROBLEMS = load_problems()
 PROBLEM_BY_ID = {item["id"]: item for item in PROBLEMS}
@@ -742,6 +775,38 @@ async function loadFilters() {
   renderFilters(data);
 }
 
+function applyUrlParamsAndSearch() {
+  const params = new URLSearchParams(window.location.search);
+  const q = (params.get('q') || '').trim();
+  const source = (params.get('source') || '').trim();
+  const chapter = (params.get('chapter') || '').trim();
+  const section = (params.get('section') || '').trim();
+  const types = (params.get('types') || '').trim();
+  const typeMode = (params.get('type_mode') || '').trim();
+  const auto = (params.get('auto') || '').trim();
+
+  if (q) queryInput.value = q;
+  if (source) sourceInput.value = source;
+  if (chapter) {
+    chapterInput.value = chapter;
+    syncSectionOptions();
+  }
+  if (section) sectionInput.value = section;
+  if (typeMode === 'all' || typeMode === 'any') typeModeInput.value = typeMode;
+
+  if (types) {
+    const selected = new Set(types.split(',').map(x => x.trim()).filter(Boolean));
+    for (const cb of typesBox.querySelectorAll('input[type="checkbox"]')) {
+      cb.checked = selected.has(cb.value);
+    }
+  }
+  syncTypeVisibility();
+
+  if (auto === '1') {
+    runSearch();
+  }
+}
+
 async function renameSource() {
   const oldVal = oldSourceInput.value.trim();
   const newVal = newSourceInput.value.trim();
@@ -779,7 +844,11 @@ for (const input of [queryInput, sourceInput, chapterInput, sectionInput]) {
     if (e.key === 'Enter') runSearch();
   });
 }
-loadFilters();
+async function init() {
+  await loadFilters();
+  applyUrlParamsAndSearch();
+}
+init();
 </script>
 """
         self.send_html(page_template("化学問題検索", body))
@@ -806,11 +875,55 @@ loadFilters();
 <iframe src="{pdf_url}" width="100%" height="720" style="border: 1px solid #ddd; border-radius: 6px;"></iframe>
 """
 
+        chapter_ids = normalize_chapter_ids(problem)
+        section_ids = normalize_section_ids(problem)
+        type_ids = normalize_type_ids(problem)
+
+        chapter_links = []
+        for chapter_id in chapter_ids:
+            chapter_name = CHAPTER_NAME_BY_ID.get(chapter_id, chapter_id)
+            url = f"/?chapter={quote(chapter_id, safe='')}&auto=1"
+            chapter_links.append(f'<a href="{url}">{html.escape(chapter_name)}</a>')
+        chapter_links_html = " / ".join(chapter_links) if chapter_links else "-"
+
+        section_pairs = []
+        for type_id in type_ids:
+            meta = TYPE_META_BY_ID.get(type_id) or {}
+            ch = meta.get("chapter_id", "")
+            sec = meta.get("section_id", "")
+            if ch and sec:
+                section_pairs.append((ch, sec))
+        if section_pairs:
+            section_pairs = uniq_keep_order(section_pairs)
+        else:
+            section_pairs = [(ch, sec) for ch in chapter_ids for sec in section_ids if ch and sec]
+            section_pairs = uniq_keep_order(section_pairs)
+
+        section_links = []
+        for chapter_id, section_id in section_pairs:
+            section_name = SECTION_NAME_BY_KEY.get((chapter_id, section_id), section_id)
+            url = (
+                f"/?chapter={quote(chapter_id, safe='')}"
+                f"&section={quote(section_id, safe='')}&auto=1"
+            )
+            section_links.append(f'<a href="{url}">{html.escape(section_name)}</a>')
+        section_links_html = " / ".join(section_links) if section_links else "-"
+
+        type_links = []
+        for type_id in type_ids:
+            type_name = TYPE_META_BY_ID.get(type_id, {}).get("name", type_id)
+            url = f"/?types={quote(type_id, safe='')}&type_mode=any&auto=1"
+            type_links.append(f'<a href="{url}">{html.escape(type_id)} {html.escape(type_name)}</a>')
+        type_links_html = " / ".join(type_links) if type_links else "-"
+
         body = f"""
 <a href="/">← 検索へ戻る</a>
 <h1>{html.escape(problem['title'])}</h1>
 <p><strong>ID:</strong> {html.escape(problem['id'])}</p>
 <p><strong>source:</strong> {html.escape(problem.get('source', ''))}</p>
+<p><strong>chapter:</strong> {chapter_links_html}</p>
+<p><strong>section:</strong> {section_links_html}</p>
+<p><strong>type:</strong> {type_links_html}</p>
 <div class="row" style="margin-bottom: 0.6rem;">
   <input id="sourceEdit" type="text" placeholder="sourceを変更" />
   <button id="sourceEditBtn">保存</button>
