@@ -1,0 +1,212 @@
+[
+  {
+    "id": "eval_01",
+    "query": "問1 互いに同素体の関係にない組合せを，次の①～⑤のうちからーつ選べ。 に近い問題を探して 問1 互いに同素体の関係にない組合せを，次の①～⑤のうちからーつ選べ。",
+    "expected_problem_id": "2025_kawai_q01",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE101"
+  },
+  {
+    "id": "eval_02",
+    "query": "問3 原子から電子1個を取り去って，1 価の陽イオンにするのに必要なエネルギー に近い問題を探して 問3 原子から電子1個を取り去って，1 価の陽イオンにするのに必要なエネ",
+    "expected_problem_id": "2025_kawai_q02",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE001"
+  },
+  {
+    "id": "eval_03",
+    "query": "問5 図3 のアは体心立方格子の単位格子を,イは面心立方格子の単位格子をそれぞ に近い問題を探して 問5 図3 のアは体心立方格子の単位格子を,イは面心立方格子の単位格子を",
+    "expected_problem_id": "2025_kawai_q04",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE103"
+  },
+  {
+    "id": "eval_04",
+    "query": "問1 溶解に関する記述として下線部に誤りを含むものはどれか。最も適当なものを， に近い問題を探して 問1 溶解に関する記述として下線部に誤りを含むものはどれか。最も適当なも",
+    "expected_problem_id": "2025_kawai_q05",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE032"
+  },
+  {
+    "id": "eval_05",
+    "query": "問2 硫酸銅（ll)CuSO4 は，20でで水b0og に最大で20 g 溶解する。20でにおい に近い問題を探して 問2 硫酸銅（ll)CuSO4 は，20でで水b0og に最大で20 g",
+    "expected_problem_id": "2025_kawai_q06",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE048"
+  },
+  {
+    "id": "eval_06",
+    "query": "問4 次の文章を読み，後の間い（a -c ）に答えよ。 に近い問題を探して 問4 次の文章を読み，後の間い（a -c ）に答えよ。 濃度未知の酢酸水",
+    "expected_problem_id": "2025_kawai_q08",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE092"
+  },
+  {
+    "id": "eval_07",
+    "query": "問1 次の反応ア～ウについて，下線を付した原子の酸化数の変化が大きい順に並べ に近い問題を探して 問1 次の反応ア～ウについて，下線を付した原子の酸化数の変化が大きい順に",
+    "expected_problem_id": "2025_kawai_q09",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE027"
+  },
+  {
+    "id": "eval_08",
+    "query": "問4 酸化銀電池に関する次の文章中の空欄 に近い問題を探して 問4 酸化銀電池に関する次の文章中の空欄 ア イ に当てはまる語句と 式",
+    "expected_problem_id": "2025_kawai_q12",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE069"
+  },
+  {
+    "id": "eval_09",
+    "query": "問5 海水にはナトリウムイオンNa+，マグネシウムイオンMg2+，塩化物イオン に近い問題を探して 問5 海水にはナトリウムイオンNa+，マグネシウムイオンMg2+，塩化物",
+    "expected_problem_id": "2025_kawai_q13",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE014"
+  },
+  {
+    "id": "eval_10",
+    "query": "問1 図1は，水の状態図を模式的に示したものである。図1 に関する記述として誤 に近い問題を探して 問1 図1は，水の状態図を模式的に示したものである。図1 に関する記述と",
+    "expected_problem_id": "2025_kawai_q14",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE045"
+  },
+  {
+    "id": "eval_11",
+    "query": "問2 次の記述I -.-皿中の気体ア～ウを，分子量が大きい順に並べたものはどれか。 に近い問題を探して 問2 次の記述I -.-皿中の気体ア～ウを，分子量が大きい順に並べたもの",
+    "expected_problem_id": "2025_kawai_q15",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE008"
+  },
+  {
+    "id": "eval_12",
+    "query": "問3 25で，大気圧（760 mmHg 一 1.013 X i05 Pa）のもとで，一端を閉じた断面積5.0 に近い問題を探して 問3 25で，大気圧（760 mmHg 一 1.013 X i05 Pa",
+    "expected_problem_id": "2025_kawai_q16",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE046"
+  },
+  {
+    "id": "eval_13",
+    "query": "問4 次の文章を読み，後の問い（a・b ）に答えよ。 に近い問題を探して 問4 次の文章を読み，後の問い（a・b ）に答えよ。 容積が2.0 L",
+    "expected_problem_id": "2025_kawai_q17",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE043"
+  },
+  {
+    "id": "eval_14",
+    "query": "問1 下線部（a）に関連して，室温におけるNH3 の飽和水溶液の質量パーセント濃度 に近い問題を探して 問1 下線部（a）に関連して，室温におけるNH3 の飽和水溶液の質量パー",
+    "expected_problem_id": "2025_kawai_q18",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE024"
+  },
+  {
+    "id": "eval_15",
+    "query": "問1 純物質であるものはどれか。最も適当なものを，次の①～④のうちからーつ選 に近い問題を探して 問1 純物質であるものはどれか。最も適当なものを，次の①～④のうちからー",
+    "expected_problem_id": "2025_kawai_q22",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE006"
+  },
+  {
+    "id": "eval_16",
+    "query": "問2 図1に示すように，試験管に化合物x を入れて加熱し，実験I -皿を行った。 に近い問題を探して 問2 図1に示すように，試験管に化合物x を入れて加熱し，実験I -皿を",
+    "expected_problem_id": "2025_kawai_q23",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE104"
+  },
+  {
+    "id": "eval_17",
+    "query": "問4 イオン結晶中の陽イオンと陰イオンを完全に弓は離し，気体状態のイオンにす に近い問題を探して 問4 イオン結晶中の陽イオンと陰イオンを完全に弓は離し，気体状態のイオン",
+    "expected_problem_id": "2025_kawai_q25",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE068"
+  },
+  {
+    "id": "eval_18",
+    "query": "問4 浸透および浸透圧に関する記述として誤りを含むものはどれか。最も適当なも に近い問題を探して 問4 浸透および浸透圧に関する記述として誤りを含むものはどれか。最も適当",
+    "expected_problem_id": "2025_kawai_q30",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE060"
+  },
+  {
+    "id": "eval_19",
+    "query": "問1 次の化学反応（ア・イ）の速度に関する記述として誤りを含むものはどれか。後 に近い問題を探して 問1 次の化学反応（ア・イ）の速度に関する記述として誤りを含むものはどれ",
+    "expected_problem_id": "2025_kawai_q32",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE081"
+  },
+  {
+    "id": "eval_20",
+    "query": "問2 容積2.0 L の容器に四酸化二窒素N2O4 を1.00mol入れ，一定温度に保ったと に近い問題を探して 問2 容積2.0 L の容器に四酸化二窒素N2O4 を1.00mol入れ",
+    "expected_problem_id": "2025_kawai_q33",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE085"
+  },
+  {
+    "id": "eval_21",
+    "query": "問3 酢酸CH3COOH は，水溶液中で次の式（2）で示される電離平衡の状態になる。 に近い問題を探して 問3 酢酸CH3COOH は，水溶液中で次の式（2）で示される電離平衡の",
+    "expected_problem_id": "2025_kawai_q34",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE088"
+  },
+  {
+    "id": "eval_22",
+    "query": "問4 次の文章を読み，後の問い（a -c ）に答えよ。 に近い問題を探して 問4 次の文章を読み，後の問い（a -c ）に答えよ。 水酸化カ)ウムK",
+    "expected_problem_id": "2025_kawai_q35",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE065"
+  },
+  {
+    "id": "eval_23",
+    "query": "問3 3 種類の酸化物ア～ウは，二酸化ケイ素SiO2，酸化カルシウムCaO,酸化ア に近い問題を探して 問3 3 種類の酸化物ア～ウは，二酸化ケイ素SiO2，酸化カルシウムCa",
+    "expected_problem_id": "2025_kawai_q38",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE102"
+  },
+  {
+    "id": "eval_24",
+    "query": "問1 下線部（a）に関して，天然ガスの主成分はメタンである。メタンの生成ェンタル に近い問題を探して 問1 下線部（a）に関して，天然ガスの主成分はメタンである。メタンの生成",
+    "expected_problem_id": "2025_kawai_q40",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE090"
+  },
+  {
+    "id": "eval_25",
+    "query": "問1 結晶が，分子結晶であるものはどれか。最も適当なものを,次の①～⑤のうち に近い問題を探して 問1 結晶が，分子結晶であるものはどれか。最も適当なものを,次の①～⑤の",
+    "expected_problem_id": "2025_kawai_q44",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE031"
+  },
+  {
+    "id": "eval_26",
+    "query": "問2 コロイド溶液に関する記述として下線部に誤りを含むものはどれか。最も適当 に近い問題を探して 問2 コロイド溶液に関する記述として下線部に誤りを含むものはどれか。最も",
+    "expected_problem_id": "2025_kawai_q45",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE055"
+  },
+  {
+    "id": "eval_27",
+    "query": "問5 金Au の結晶は面心立方格子であり，Au 原子が最密に並んだ層（最密充填層） に近い問題を探して 問5 金Au の結晶は面心立方格子であり，Au 原子が最密に並んだ層（最",
+    "expected_problem_id": "2025_kawai_q48",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE037"
+  },
+  {
+    "id": "eval_28",
+    "query": "問1 図1のように，陰イオン交換膜と陽イオン交換膜でA 室，B 室，C 室に仕切 に近い問題を探して 問1 図1のように，陰イオン交換膜と陽イオン交換膜でA 室，B 室，C",
+    "expected_problem_id": "2025_kawai_q49",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE074"
+  },
+  {
+    "id": "eval_29",
+    "query": "問3 気体A と気体B から気体C が生成する反応は可逆反応であり，その反応式は に近い問題を探して 問3 気体A と気体B から気体C が生成する反応は可逆反応であり，その",
+    "expected_problem_id": "2025_kawai_q51",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE082"
+  },
+  {
+    "id": "eval_30",
+    "query": "問1 脂肪族化合物の製法に関する記述として誤りを含むものはどれか。最も適当な に近い問題を探して 問1 脂肪族化合物の製法に関する記述として誤りを含むものはどれか。最も適",
+    "expected_problem_id": "2025_kawai_q58",
+    "source": "2025_kawai",
+    "notes": "primary_type=TYPE107"
+  }
+]
